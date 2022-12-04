@@ -19,7 +19,11 @@ function Header(props){
 function Nav(props){
   const lis = props.list.map((title) => (
     <li key={title.id}>
-      <a href={'/read'+title.id}>{title.title}</a>
+      <a id={title.id} href={'/read'+title.id} 
+         onClick={(event)=>{
+           event.preventDefault();
+           props.onChangeMode(event.target.id)
+      }}>{title.title}</a>
     </li>
   ));
   return (
@@ -39,18 +43,45 @@ function Article(props){
 }
 
 function App(){
+  const mode = 'Blue Archive'
+  let content = null
   const list =[
     {id:1, title:'Momo2', body:'미또졌'},
     {id:2, title:'Midoli', body:'미또이'},
     {id:3, title:'Aris', body:'히카리여!'},
     {id:4, title:'Uzi', body:'UziQueen.'}
   ]
+  if(mode === 'Blue Archive'){
+    content = (
+      <div>
+        <Article title="Game Development Department" body="Meow"></Article>
+        <Article title="Midoli" body="Game Start!"></Article>
+      </div>
+    );                        
+  }else if(mode === 'Genshin Impact'){
+    content = (
+      <div>
+        <Article title="Liyue"></Article>
+        <Article title="호두"></Article>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <Header title='Blue Archive' onChangeMode={()=>{alert('Hello World!')}} ></Header>
-      <Nav list={list} onchangeMode={()=>{alert(1)}}></Nav>
-      <Article title='Game Development Department'></Article>
-      <Article title='Midoli' body='Game Start!'></Article>
+      <Header
+        title="Blue Archive"
+        onChangeMode={() => {
+          alert("Hello World!");
+        }}
+      ></Header>
+      <Nav
+        list={list}
+        onChangeMode={(body) => {
+          alert(body);
+        }}
+      ></Nav>
+      {content}
     </div>
   );
 }

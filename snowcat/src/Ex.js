@@ -1,11 +1,12 @@
 /* eslint-disable react/jsx-no-undef */
 import "./Ex.css"
 
-function Header(){
+function Header(props){
+    console.log(props)
   return (
     <header>
       <h1 id="hi">
-        <a href="/">블루아카이브!</a>
+        <a href="/">{props.title}</a>
       </h1>
     </header>
   );
@@ -34,10 +35,11 @@ function Article() {
     </article>
   )
 }
+
 function Ex() {
   return (
     <div>
-      <Header></Header>
+      <Header title="Hoyoverse-"></Header>
       <Nav></Nav>
       <Article></Article>
     </div>

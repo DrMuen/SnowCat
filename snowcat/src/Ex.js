@@ -12,15 +12,14 @@ function Header(props){
   );
 }
 
-function Nav() {
+function Nav(props) {
+  console.log(props.call)
+  const li = props.call.map((hi)=>{return <li key={hi.title}>{hi.title}</li>})
   return(
     <nav>
       <div>
         <ol>
-          <li>Alise</li>
-          <li>Momo2</li>
-          <li>Midoli</li>
-          <li>UziQueen</li>
+          {li}
         </ol>
       </div>
     </nav>
@@ -37,10 +36,16 @@ function Article() {
 }
 
 function Ex() {
+  const nameList = [
+    {id:1, title:"Alis", language:"C"},
+    {id:2, title:"Momo2", language:"Javascript"},
+    {id:3, title:"Midoli", language:"Python"},
+    {id:4, title:"UZQUeen", language:"SQL"} 
+  ]
   return (
     <div>
       <Header title="Hoyoverse-"></Header>
-      <Nav></Nav>
+      <Nav call={nameList}></Nav>
       <Article></Article>
     </div>
   );

@@ -14,7 +14,7 @@ function Header(props){
 
 function Nav(props) {
   console.log(props.call)
-  const li = props.call.map((hi)=>{return <li key={hi.title}>{hi.title}</li>})
+  const li = props.call.map((hi)=>{return<li key={hi.title}>{hi.title}</li>})
   return(
     <nav>
       <div>
@@ -37,7 +37,7 @@ function Article() {
 
 function Ex() {
   const nameList = [
-    {id:1, title:"Alis", language:"C"},
+    {id:1, title:"Aris", language:"C"},
     {id:2, title:"Momo2", language:"Javascript"},
     {id:3, title:"Midoli", language:"Python"},
     {id:4, title:"UZQUeen", language:"SQL"} 

@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import "./App.css";
-
+import {useState} from "react"
 function Header(props) {
   return (
     <div className="head">
@@ -8,8 +8,9 @@ function Header(props) {
         <h1>
           <a
             href="https://bluearchive.nexon.com/events/2022/10/1st"
-            onClick={() => {
+            onClick={(event) => {
               props.onChangeMode();
+              event.preventDefault();
             }}
           >
             {props.title}
@@ -22,12 +23,13 @@ function Header(props) {
 
 function Nav(props) {
   const lis = props.list.map((name) => (
-    <li key={name.id}>
-      <a href={'/'+name.id} 
-        onClick={(event)=>{
-          event.preventDefault();
-          props.onChangeMode(event, "듀얼을 신청한다, "+name.title)
-      }} >
+        <li key={name.id}>
+        <a href={'/'+name.id} 
+          onClick={(event)=>{
+            props.onChangeMode();
+            // props.onChangeMode(event, "듀얼을 신청한다, "+name.title)
+            event.preventDefault();
+          }} >
         {name.title} 
       </a>
     </li>
@@ -63,7 +65,7 @@ function Article(props) {
 // }
 
 function App() {
-  const mode = "Blue Archive";
+  const [mode,setMode] = useState("Student")
   let content = null;
   const list = [
     { id: 1, title: "Momo2", body: "미또졌" },
@@ -71,37 +73,29 @@ function App() {
     { id: 3, title: "Aris", body: "히카리여!" },
     { id: 4, title: "Uz", body: "UzQueen." },
   ];
-  if (mode === "Blue Archive") {
-    content = (
-      <div>
-        <Article title="Game Development Department" body="Meow"></Article>
-        <Article title="Midoli" body="Game Start!"></Article>
-      </div>
-    );
-  } else if (mode === "Genshin Impact") {
-    content = (
-      <div>
-        <Article title="Liyue"></Article>
-        <Article title="호두"></Article>
-      </div>
-    );
+  
+  if(mode === "HomePage"){
+    content = <Article title="이서리센세" body="돌아온걸 환영해!"></Article>
+  }else if(mode === "Student"){
+    content = <Article title="7" body="5"></Article>
   }
-
   return (
     <div>
       <Header
-        title="Blue Archive"
+        title="HomePage"
         onChangeMode={() => {
+          setMode("HomePage");
           alert("Hello World!");
         }}
       ></Header>
       <Nav
         list={list}
-        onChangeMode={(hi,hey) => {
-          hi.target.innerHTML = hey
+        onChangeMode={() => {
+          setMode("Student");
+          // hi.target.innerHTML = hey 
         }}
       ></Nav>
-      {content}
+    {content}
     </div>
   );
 }

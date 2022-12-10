@@ -8,3 +8,8 @@ a{
 div{
     color: pink;
 }
+input{
+    border: 2px solid white ;
+    background-color: pink;
+    color: white;
+}

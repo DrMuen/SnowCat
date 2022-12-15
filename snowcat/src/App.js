@@ -24,10 +24,9 @@ function Header(props) {
 function Nav(props) {
   const lis = props.list.map((name) => (
         <li key={name.id}>
-        <a href={'/'+name.id} 
+        <a id={name.id} href={'/'+name.id} 
           onClick={(event)=>{
-            props.onChangeMode();
-            // props.onChangeMode(event, "듀얼을 신청한다, "+name.title)
+            props.onChangeMode(event.target.id);
             event.preventDefault();
           }} >
         {name.title} 
@@ -65,19 +64,31 @@ function Article(props) {
 // }
 
 function App() {
-  const [mode,setMode] = useState("Student")
+  // const [mode,setMode] = useState("Student")
+  const [mode,setMode] = useState("HomePage")
+  const [id,setId] = useState(null)
   let content = null;
-  const list = [
-    { id: 1, title: "Momo2", body: "미또졌" },
+  let uyouka = null;
+  
+  const [list,setList] = useState([
+    { id: 1, title: "Momoi", body: "미또졌" },
     { id: 2, title: "Midoli", body: "미또이" },
     { id: 3, title: "Aris", body: "히카리여!" },
     { id: 4, title: "Uz", body: "UzQueen." },
-  ];
+  ]);
+
   
   if(mode === "HomePage"){
     content = <Article title="이서리센세" body="돌아온걸 환영해!"></Article>
   }else if(mode === "Student"){
-    content = <Article title="7" body="5"></Article>
+    let title,body=null;
+    for(let i=0; i<list.length; i++){
+      if(list[i].id===Number(id)){
+         title=list[i].title;
+         body=list[i].body
+      }
+    }
+    content = <Article title= {title} body={body}></Article>
   }
   return (
     <div>
@@ -85,13 +96,14 @@ function App() {
         title="HomePage"
         onChangeMode={() => {
           setMode("HomePage");
-          alert("Hello World!");
+
         }}
       ></Header>
       <Nav
         list={list}
-        onChangeMode={() => {
-          setMode("Student");
+        onChangeMode={(_id) => {
+          setMode("Student")
+          setId(_id)
           // hi.target.innerHTML = hey 
         }}
       ></Nav>

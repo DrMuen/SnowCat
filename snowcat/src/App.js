@@ -26,9 +26,9 @@ function Nav(props) {
         <li key={name.id}>
         <a id={name.id} href={'/'+name.id} 
           onClick={(event)=>{
-            props.onChangeMode(event.target.id);
+            props.onChangeMode(Number(event.target.id));
             event.preventDefault();
-          }} >
+          }}>
         {name.title} 
       </a>
     </li>
@@ -53,25 +53,73 @@ function Article(props) {
     </div>
   );
 }
-// function Button(props){
-//   return (
-//     <div>
-//       <input type="button" value="GAME CHANGE!" onClick={()=>{
-        
-//       }}></input>
-//     </div>
-//   );
-// }
+function Create(props){
+  return (
+    <form onSubmit={(event)=>{
+      event.preventDefault();
+      const small = event.target.small.value;
+      const big = event.target.big.value;
+      props.onCreateMode(small,big)
+    }}>
+      <p><input name="small" type="text"  placeholder="3Star"></input></p>
+      <p><textarea name="big" placeholder="4Star"></textarea></p>
+      <p><input type="submit"></input></p>
+    </form>
+  );
+}
+function Update(props){
+  const [title,setTitle] = useState(props.title);
+  const [body,setBody] = useState(props.body);
+  console.log(title);
+  console.log(body)
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        const small = event.target.small.value;
+        const big = event.target.big.value;
+        props.onUpdateMode(small, big);
+      }}
+    >
+      <p>
+        <input
+          name="samll"
+          type="text"
+          placeholder="5Star"
+          defaultValue={props.title}
+          onChange={(event)=>{
+            setTitle(event.target.value);
+            
+          }}
+        ></input>
+      </p>
+      <p>
+        <textarea
+          name="big"
+          type="text"
+          placeholder="6Star"
+          defaultValue={props.body}
+          onChange={(event)=>{
+            setBody(event.target.value)
+          }}
+        ></textarea>
+      </p>
+      <p>
+        <input type="submit" value="업데이트해보자"></input>
+      </p>
+    </form>
+  );
+}
 
 function App() {
-  // const [mode,setMode] = useState("Student")
   const [mode,setMode] = useState("HomePage")
   const [id,setId] = useState(null)
   let content = null;
-  let uyouka = null;
+  let contextControll = null;
+  const [nextId,setNextId] = useState(5)
   
   const [list,setList] = useState([
-    { id: 1, title: "Momoi", body: "미또졌" },
+    { id: 1, title: "Momoi", body: "모또졌" },
     { id: 2, title: "Midoli", body: "미또이" },
     { id: 3, title: "Aris", body: "히카리여!" },
     { id: 4, title: "Uz", body: "UzQueen." },
@@ -79,16 +127,65 @@ function App() {
 
   
   if(mode === "HomePage"){
-    content = <Article title="이서리센세" body="돌아온걸 환영해!"></Article>
+    content = (
+      <div>
+        <Article title="이서리센세" body="돌아온걸 환영해!"></Article>
+        <input
+          type="button"
+          value="뭔가를 추가해보자!"
+          onClick={(event) => {
+            event.preventDefault();
+            setMode("Create");
+          }}
+        ></input>
+      </div>
+    );
   }else if(mode === "Student"){
     let title,body=null;
     for(let i=0; i<list.length; i++){
-      if(list[i].id===Number(id)){
+      if(list[i].id===id){
          title=list[i].title;
          body=list[i].body
       }
     }
-    content = <Article title= {title} body={body}></Article>
+    content = 
+      <div>
+        <Article title={title} body={body}></Article>
+        <input
+          type="button"
+          value="뭔가를 추가해보자!"
+          onClick={(event) => {
+            event.preventDefault();
+            setMode("Create");
+          }}
+        ></input>
+      </div>
+      contextControll = <a href={"/update/"+id} onClick={(event)=>{
+        event.preventDefault();
+        setMode("Update")
+      }}>업데이트</a>
+    
+  }else if(mode==="Create"){
+    content = <Create onCreateMode={(small,big)=>{
+                const add = { id:nextId,title:small,body:big};
+                const newList = [...list];
+                newList.push(add);
+                setList(newList);
+                setMode("Student");
+                setId(nextId);
+                setNextId(nextId+1)
+    }}></Create>
+  }else if(mode==="Update"){
+    let title,body=null;
+    for(let i=0;i<list.length;i++){
+      if(list[i].id === id){
+        title = list[i].title;
+        body = list[i].body
+      }
+    }
+    content = <Update title={title} body={body} onUpdateMode={()=>{
+      
+    }}></Update>
   }
   return (
     <div>
@@ -96,7 +193,6 @@ function App() {
         title="HomePage"
         onChangeMode={() => {
           setMode("HomePage");
-
         }}
       ></Header>
       <Nav
@@ -104,11 +200,11 @@ function App() {
         onChangeMode={(_id) => {
           setMode("Student")
           setId(_id)
-          // hi.target.innerHTML = hey 
         }}
       ></Nav>
     {content}
-    </div>
+    {contextControll}
+      </div>
   );
 }
 

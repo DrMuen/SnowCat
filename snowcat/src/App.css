@@ -13,3 +13,8 @@ input{
     background-color: pink;
     color: white;
 }
+textarea{
+    border:2px solid white;
+    background-color: powderblue;
+    color: white;
+}

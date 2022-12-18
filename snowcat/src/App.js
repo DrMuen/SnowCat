@@ -33,7 +33,6 @@ function Nav(props) {
       </a>
     </li>
   ));
-  
   return (
     <div>
       <nav>

@@ -1,0 +1,22 @@
+h1{
+    color: #F4C7EE
+}
+ol{
+    padding: 20px;
+    width: 75px;
+    height: 70px;
+    background-color: white;
+}
+li{
+    color:#F4C7EE;
+}
+a{
+    color: #95D0FF;
+}
+.create{
+    color:white;
+    border: 2px solid white;
+}
+input{
+    background-color: #95D0FF;
+}

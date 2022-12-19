@@ -57,24 +57,29 @@ function Create(props){
 }
 
 function Update(props){
-
+  const [title,setTitle] = useState(props.title); 
+  const [body,setBody] = useState(props.body);
   return(
     <form onSubmit={(event)=>{
+      const title=event.target.title.value;
+      const body=event.target.body.value
       event.preventDefault();
-      props.onUpdateMode(props.title,props.body)
+      props.onUpdateMode(title,body)
     }}>
-      <p><input name='title' defaultValue={props.title}></input></p>
-      <p><input name='body' defaultValue={props.body}></input></p>
+      <p><input name='title' value={title} onChange={(event)=>{
+        setTitle(event.target.value);
+        }}></input></p>
+      <p><input name='body' value={body} onChange={(event)=>{
+        setBody(event.target.value)
+      }}></input></p>
       <p><input type='submit' value='수정'></input></p>
     </form>
   )
 }
 
 function Remind(){
-  let body,title =null;
   let content = null;
   let createContent = null;
-  let updateContent = null;
   const [mode,setMode]=useState("homepage")
   const [id,setId]=useState(null);
   const [nextId,setNextId]=useState(5);
@@ -95,6 +100,7 @@ function Remind(){
         }}>뭔가를 만들어보자!</a>
       </div>
   }else if(mode==='student'){
+    let body,title = null;
     for(let i=0; i<list.length; i++){
       if(list[i].id===id){
         title=list[i].title;
@@ -128,10 +134,27 @@ function Remind(){
       setNextId(nextId+1)
     }}></Create>
 }else if(mode==='update'){
-    console.log(body,title)
-    updateContent=<Update title={title} body={body} onUpdateMode={(title,body)=>{
-      console.log(title,body)
-    }}></Update>
+     let body, title = null;
+     for (let i = 0; i < list.length; i++) {
+       if (list[i].id === id) {
+         title = list[i].title;
+         body = list[i].body;
+       }
+     }
+    content=<Update title={title} body={body} onUpdateMode={(title,body)=>{
+        const newList =[...list];
+        const updateList={id:id, title:title, body:body};
+        console.log(updateList)
+        for (let i=0; i<list.length; i++){
+            if(list[i].id===id){
+                newList[i]=updateList;
+                setList(newList)
+                setMode('student')
+            }
+        }
+        }
+      }
+></Update>
 }
 
   return (
@@ -145,7 +168,6 @@ function Remind(){
       }}></Nav>
       {content}
       {createContent}
-      {updateContent}
     </div>
   );
 }

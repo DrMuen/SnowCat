@@ -77,6 +77,7 @@ function Update(props){
   )
 }
 
+
 function Remind(){
   let content = null;
   let createContent = null;
@@ -122,6 +123,12 @@ function Remind(){
             setMode("update")  
             }}>뭔가를 수정해보자!</a>
         </p>
+        <p>
+            <a className="delete" href="./delete" onClick={(event)=>{
+            event.preventDefault();
+            setMode("delete")  
+            }}>뭔가를 삭제해보자!</a>
+        </p>
       </div>
   }else if(mode==='create'){
     createContent=<Create onCreateMode={(title,body)=>{
@@ -155,6 +162,16 @@ function Remind(){
         }
       }
 ></Update>
+}else if(mode==='delete'){
+    const newList=[];
+    for(let i=0;i<list.length;i++){
+        if(list[i].id!==id){
+            newList.push(list[i])
+        }
+    }
+    console.log(newList)
+    setList(newList);
+    setMode('homepage')
 }
 
   return (

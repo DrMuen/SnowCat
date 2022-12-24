@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import Ex from './Ex'
-import Remind from './Remind'
+// import App from './App';
+// import Remind from './Remind'
+import Chirstmas from './Chirstmas';
 import reportWebVitals from './reportWebVitals';
 
 
@@ -11,7 +11,7 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Remind />
+    <Chirstmas />
   </React.StrictMode>
 );
 
